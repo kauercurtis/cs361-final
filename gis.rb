@@ -70,41 +70,41 @@ end
 class Waypoint
 
 
-
-attr_reader :lat, :lon, :ele, :name, :type
+attr_reader :latitude, :longitude, :elevation, :name, :type
 
   def initialize(lon, lat, ele=nil, name=nil, type=nil)
-    @lat = lat
-    @lon = lon
-    @ele = ele
+    @latitude = lat
+    @longitude = lon
+    @elevation = ele
     @name = name
     @type = type
   end
 
   def get_waypoint_json(indent=0)
-    j = '{"type": "Feature",'
+    json_waypoint = '{"type": "Feature",'
     # if name is not nil or type is not nil
-    j += '"geometry": {"type": "Point","coordinates": '
-    j += "[#{@lon},#{@lat}"
-    if ele != nil
-      j += ",#{@ele}"
+    json_waypoint += '"geometry": {"type": "Point","coordinates": '
+    json_waypoint += "[#{@longitude},#{@latitude}"
+    # was ele
+    if elevation != nil
+      json_waypoint += ",#{@elevation}"
     end
-    j += ']},'
+    json_waypoint += ']},'
     if name != nil or type != nil
-      j += '"properties": {'
+      json_waypoint += '"properties": {'
       if name != nil
-        j += '"title": "' + @name + '"'
+        json_waypoint += '"title": "' + @name + '"'
       end
       if type != nil  # if type is not nil
         if name != nil
-          j += ','
+          json_waypoint += ','
         end
-        j += '"icon": "' + @type + '"'  # type is the icon
+        json_waypoint += '"icon": "' + @type + '"'  # type is the icon
       end
-      j += '}'
+      json_waypoint += '}'
     end
-    j += "}"
-    return j
+    json_waypoint += "}"
+    return json_waypoint
   end
 end
 
@@ -161,4 +161,3 @@ end
 if File.identical?(__FILE__, $0)
   main()
 end
-
